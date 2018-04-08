@@ -24,16 +24,17 @@ const getIngredients = () => {
       ingredientList.push(element.value)
     }
   })
-  getRecipes()
+  getRecipes(ingredientList)
 }
 
 
-const getRecipes = () => {
-  fetch('https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients?ingredients=apples,sugar,flour&number=25&ranking=1',
+const getRecipes = (ingredientList) => {
+  let stringIngredients = ingredientList.toString()
+  fetch(`https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients?ingredients=${stringIngredients}&number=25&ranking=1`,
   {method: 'get',
     headers: {
       'Content-Type': 'application/json',
-      'X-Mashape-Key': 't1NNs7WYHvmshTq0gMCn9OJP0Omcp1nYWGPjsn4RgFm16WaU5W'
+      'X-Mashape-Key': 'key'
     }
   })
     .then((response) => response.json())
@@ -44,7 +45,25 @@ const getRecipes = () => {
     }
 
 
+    getInformation = (recipes) => {
+
+    recipes.forEach(recipe )
+      let id = recipe[id]
+      let title = recipe[title]
+      getDescription(id, title)
+      getURL(id, title)
+
+    }
+
+    getDescription = (id, title) => {
+      let description
+
+    }
+
+
+
 const showRecipes = (recipes) => {
   recipes.forEach((recipe) => {
+    $('.recipe-top3').append(`<h2>${recipe.title}</h2>`)
   })
 }

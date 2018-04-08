@@ -23,8 +23,28 @@ const getIngredients = () => {
     if(element.value != ("")) {
       ingredientList.push(element.value)
     }
-    getRecipes(ingredientList)
-    postIngredientList(ingredientList)
   })
+  getRecipes()
 }
 
+
+const getRecipes = () => {
+  fetch('https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients?ingredients=apples,sugar,flour&number=25&ranking=1',
+  {method: 'get',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Mashape-Key': 't1NNs7WYHvmshTq0gMCn9OJP0Omcp1nYWGPjsn4RgFm16WaU5W'
+    }
+  })
+    .then((response) => response.json())
+    .then((myJson) => {
+      const recipes =  Object.keys(myJson).map((recipe) =>  myJson[recipe])
+        showRecipes(recipes)
+      })
+    }
+
+
+const showRecipes = (recipes) => {
+  recipes.forEach((recipe) => {
+  })
+}

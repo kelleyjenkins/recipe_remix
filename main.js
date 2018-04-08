@@ -11,4 +11,20 @@ const validateForm = (event) => {
   if($('.name-input').val() === "") {
     alert("You must add at least 1 ingredient")
   }
+  else getIngredients()
 }
+
+const getIngredients = () => {
+  let array = $('.ingredient-form-inputs').find('input.name-input')
+  let ingArray = [...array]
+  let ingredientList = []
+
+  ingArray.forEach(function(element) {
+    if(element.value != ("")) {
+      ingredientList.push(element.value)
+    }
+    getRecipes(ingredientList)
+    postIngredientList(ingredientList)
+  })
+}
+

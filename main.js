@@ -4,3 +4,11 @@ $('.add-ingredient').on('click', function(){
    clicks++
 })
 
+$('.ingredient-button').click(() => validateForm(event))
+
+const validateForm = (event) => {
+  event.preventDefault()
+  if($('.name-input').val() === "") {
+    alert("You must add at least 1 ingredient")
+  }
+}

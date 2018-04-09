@@ -24,60 +24,8 @@ const getIngredients = () => {
       ingredientList.push(element.value)
     }
   })
-  // getRecipes(ingredientList)
-  postIngredients(ingredientList)
+  getRecipes(ingredientList)
 }
-
-const postIngredients = (ingredientList) => {
-    fetch('http://localhost:3000/api/v1/ingredients', {headers: {'Access-Control-Allow-Origin':'*'}})
-    .then((response) => response.json())
-    .then((myJson) => { const ingreds = Object.keys(myJson).map((ingredient) =>  myJson[ingredient])
-      makeArray(ingreds)
-    })
-
-    const ingredArray = []
-    makeArray = (ingreds) => {
-      ingreds.forEach((ingred) => {
-        ingredArray.push(ingred.name)
-      })
-    }
-
-  ingredientList.forEach((ingredient) => {
-    const body = {ingredients: {name: ingredient}}
-    if (ingredArray.includes(ingredient)) {
-      return true
-    }
-    else {
-      fetch('http://localhost:3000/api/v1/ingredients', {
-        method: 'POST',
-       headers: {'Accept': 'application/json',
-                  'Content-Type':'application/json'},
-       body: JSON.stringify(body)
-      })
-      .then((response) => response.json())
-      .catch(error => console.error(error))
-    }
-  })
-}
-
-// const getExistingIngs = () => {
-//      fetch('http://localhost:3000/api/v1/ingredients', {
-//     headers: {'Access-Control-Allow-Origin':'*'}
-//   })
-//   .then((response) => response.json())
-//   .then((myJson) => {
-//      Object.keys(myJson).map((ingredient) =>  myJson[ingredient])
-//   })
-// }
-
-// const getNames = (ingredients) => {
-//   let ingredArray = []
-//   ingredients.forEach((ingredient) => {
-//     ingredArray.push(ingredient.name)
-//   })
-//
-// }
-
 
 
 const getConfig = () => {

@@ -25,45 +25,70 @@ const getIngredients = () => {
     }
   })
   getRecipes(ingredientList)
+  postIngredients(ingredientList)
 }
 
+const postIngredients =(ingredientList) => {
+  ingredientList.forEach((ingredient) => {
+    const body = {ingredient: {name: ingredient}}
+      fetch('http://localhost:3000/api/v1/ingredients', {
+        method: 'POST',
+       headers: {'Accept': 'application/json',
+                'Content-Type':'application/json'},
+       body: JSON.stringify(body)
+      })
+      .then((response) => response.json())
+      .catch(error => console.error(error))
+    })
+}
 
-const getRecipes = (ingredientList) => {
-  let stringIngredients = ingredientList.toString()
-  fetch(`https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients?ingredients=${stringIngredients}&number=25&ranking=1`,
-  {method: 'get',
+const getConfig = () => {
+  return {
+    method: "GET",
     headers: {
       'Content-Type': 'application/json',
       'X-Mashape-Key': 'key'
     }
-  })
+  }
+}
+
+const getRecipes = (ingredientList) => {
+  let stringIngredients = ingredientList.toString()
+  fetch(`https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients?ingredients=${stringIngredients}&number=5&ranking=1`, getConfig())
     .then((response) => response.json())
     .then((myJson) => {
-      const recipes =  Object.keys(myJson).map((recipe) =>  myJson[recipe])
-        showRecipes(recipes)
-      })
-    }
+      let recipes =  Object.keys(myJson).map((recipe) =>  myJson[recipe])
+      getInformation(recipes)
+    })
+}
 
+const getInformation = (recipes) => {
+recipes.forEach((recipe) => {
+  let id = recipe.id
+  let title = recipe.title
+  getDescription(id, title)
+})
+}
 
-    getInformation = (recipes) => {
-
-    recipes.forEach(recipe )
-      let id = recipe[id]
-      let title = recipe[title]
-      getDescription(id, title)
-      getURL(id, title)
-
-    }
-
-    getDescription = (id, title) => {
-      let description
-
-    }
-
-
-
-const showRecipes = (recipes) => {
-  recipes.forEach((recipe) => {
-    $('.recipe-top3').append(`<h2>${recipe.title}</h2>`)
+const getDescription = (id, title) => {
+  fetch(`https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/${id}/summary`, getConfig())
+  .then((response) => response.json())
+  .then((myJson) => {
+    let summary = myJson.summary
+    getURL(id, title, summary)
   })
+}
+
+const getURL = (id, title, summary) => {
+  fetch(`https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/${id}/information`, getConfig())
+  .then((response) => response.json())
+  .then((myJson) => {
+    let url = myJson.sourceUrl
+    let source = myJson.sourceName
+    showRecipes(id, title, summary, source, url)
+  })
+}
+
+const showRecipes = (id, title, summary, source, url) => {
+    $('.recipe-top3').append(`<h2>${title}</h2><h5>${summary}</h5><a href="${url}"><h5>Go To Recipe</h5></a> <h5>${source}</h5>`)
 }

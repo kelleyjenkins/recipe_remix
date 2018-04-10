@@ -47,7 +47,7 @@ const getConfig = () => {
     method: "GET",
     headers: {
       'Content-Type': 'application/json',
-      'X-Mashape-Key': 'Dc7flNaJd7mshDtPUmj6fX575nZJp1VxnBFjsnlz0snQKtOmGX'
+      'X-Mashape-Key': 'key'
     }
   }
 }

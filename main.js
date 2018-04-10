@@ -1,3 +1,5 @@
+const baseUrl = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes"
+
 let clicks = 6
 $('.add-ingredient').on('click', function(){
    $('.ingredient-form-inputs').append(`<input title='ingredient-name' label='ingredient-name'type='text' data-id="${clicks}" class='name-input' placeholder='Ingredient'></br>`)
@@ -54,7 +56,7 @@ const getConfig = () => {
 
 const getRecipes = (ingredientList) => {
   let stringIngredients = ingredientList.toString()
-  fetch(`https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients?ingredients=${stringIngredients}&number=5&ranking=1`, getConfig())
+  fetch(`${baseUrl}/findByIngredients?ingredients=${stringIngredients}&number=5&ranking=1`, getConfig())
     .then((response) => response.json())
     .then((myJson) => {
       let recipes =  Object.keys(myJson).map((recipe) =>  myJson[recipe])
@@ -71,7 +73,7 @@ recipes.forEach((recipe) => {
 }
 
 const getDescription = (id, title) => {
-  fetch(`https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/${id}/summary`, getConfig())
+  fetch(`${baseUrl}/${id}/summary`, getConfig())
   .then((response) => response.json())
   .then((myJson) => {
     let summary = myJson.summary
@@ -80,7 +82,7 @@ const getDescription = (id, title) => {
 }
 
 const getURL = (id, title, summary) => {
-  fetch(`https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/${id}/information`, getConfig())
+  fetch(`${baseUrl}/${id}/information`, getConfig())
   .then((response) => response.json())
   .then((myJson) => {
     let url = myJson.sourceUrl

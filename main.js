@@ -24,68 +24,30 @@ const getIngredients = () => {
       ingredientList.push(element.value)
     }
   })
-  // getRecipes(ingredientList)
+  getRecipes(ingredientList)
   postIngredients(ingredientList)
 }
 
-const postIngredients = (ingredientList) => {
-    fetch('http://localhost:3000/api/v1/ingredients', {headers: {'Access-Control-Allow-Origin':'*'}})
-    .then((response) => response.json())
-    .then((myJson) => { const ingreds = Object.keys(myJson).map((ingredient) =>  myJson[ingredient])
-      makeArray(ingreds)
-    })
-
-    const ingredArray = []
-    makeArray = (ingreds) => {
-      ingreds.forEach((ingred) => {
-        ingredArray.push(ingred.name)
-      })
-    }
-
+const postIngredients =(ingredientList) => {
   ingredientList.forEach((ingredient) => {
-    const body = {ingredients: {name: ingredient}}
-    if (ingredArray.includes(ingredient)) {
-      return true
-    }
-    else {
+    const body = {ingredient: {name: ingredient}}
       fetch('http://localhost:3000/api/v1/ingredients', {
         method: 'POST',
        headers: {'Accept': 'application/json',
-                  'Content-Type':'application/json'},
+                'Content-Type':'application/json'},
        body: JSON.stringify(body)
       })
       .then((response) => response.json())
       .catch(error => console.error(error))
-    }
-  })
+    })
 }
-
-// const getExistingIngs = () => {
-//      fetch('http://localhost:3000/api/v1/ingredients', {
-//     headers: {'Access-Control-Allow-Origin':'*'}
-//   })
-//   .then((response) => response.json())
-//   .then((myJson) => {
-//      Object.keys(myJson).map((ingredient) =>  myJson[ingredient])
-//   })
-// }
-
-// const getNames = (ingredients) => {
-//   let ingredArray = []
-//   ingredients.forEach((ingredient) => {
-//     ingredArray.push(ingredient.name)
-//   })
-//
-// }
-
-
 
 const getConfig = () => {
   return {
     method: "GET",
     headers: {
       'Content-Type': 'application/json',
-      'X-Mashape-Key': 'key'
+      'X-Mashape-Key': 'Dc7flNaJd7mshDtPUmj6fX575nZJp1VxnBFjsnlz0snQKtOmGX'
     }
   }
 }

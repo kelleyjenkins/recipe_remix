@@ -7,7 +7,7 @@
   </head>
   <body>
     <div class="g-signin2" data-onsuccess="onSignIn"></div>
-    <a href="http://localhost:8080/" onclick="signOut();">Sign out</a>
+    <div class="g-signout2"><a href="#">Sign out</a></div>
 
     <h1> Recipe Remix </h1>
     <form class = 'ingredient-form' name = 'ingredient-form'>
@@ -26,9 +26,9 @@
 
 </div>
 
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script src="main.bundle.js"></script>
+    <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+    <script src="./lib/main.js"></script>
   </body>
 </html>

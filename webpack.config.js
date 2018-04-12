@@ -1,6 +1,6 @@
 module.exports = {
   entry: {
-    main: "./main.js",
+    main: "./lib/main.js",
   },
   output: {
     filename: "main.bundle.js"
@@ -11,5 +11,8 @@ module.exports = {
       { test: /\.css$/, loader: "style!css" },
       { test: /\.scss$/, loaders: ["style-loader", "css-loader", "sass-loader"] },
     ]
-  }
+  },
+  resolve: {
+  extensions: ['', '.js', '.json', '.css']
+}
 }

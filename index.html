@@ -2,9 +2,13 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="google-signin-client_id" content="73088763316-jmv6uf4861nruaiul3ass9d79gs3t73n.apps.googleusercontent.com">
     <title>Recipe Remix</title>
   </head>
   <body>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <div class="g-signout2"><a href="#">Sign out</a></div>
+
     <h1> Recipe Remix </h1>
     <form class = 'ingredient-form' name = 'ingredient-form'>
       <div class='ingredient-form-inputs'>
@@ -18,12 +22,14 @@
 
       <input label='submit' class="ingredient-button" type="submit" name="submit" value="Submit">
     </form>
+    <button class="profile" label='view-profile' type="button" value="View Profile">View Profile</button></br>
+
 <div class="recipe-top3">
-  
+
 </div>
-
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="main.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+    <script src="./lib/main.js"></script>
   </body>
 </html>

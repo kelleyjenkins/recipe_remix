@@ -1,10 +1,15 @@
+const path = require('path');
+
+
 module.exports = {
   entry: {
     main: "./lib/main.js",
   },
   output: {
-    filename: "main.bundle.js"
+    path: __dirname,
+    filename: "[name].bundle.js"
   },
+
   module: {
     loaders: [
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },

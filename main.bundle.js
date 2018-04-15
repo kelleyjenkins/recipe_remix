@@ -50,11 +50,11 @@
 
 	var _recipe_service = __webpack_require__(2);
 
-	var _lists = __webpack_require__(3);
+	var _lists = __webpack_require__(4);
 
-	var _home_view = __webpack_require__(4);
+	var _home_view = __webpack_require__(5);
 
-	var _ingredients = __webpack_require__(5);
+	var _ingredients = __webpack_require__(6);
 
 	(0, _login.signOutListener)();
 	(0, _home_view.homeEventListeners)();
@@ -251,13 +251,17 @@
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.showRecipes = exports.getURL = exports.getDescription = exports.getInformation = exports.getRecipes = exports.getConfig = exports.baseUrl = undefined;
+
+	var _environment = __webpack_require__(3);
+
 	var baseUrl = exports.baseUrl = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes";
 
 	var getConfig = exports.getConfig = function getConfig() {
@@ -265,7 +269,7 @@
 	    method: "GET",
 	    headers: {
 	      'Content-Type': 'application/json',
-	      'X-Mashape-Key': 'sh5Hj5YExGmshRW1Nnp8L36hII9Sp1vaIyTjsn05ZeCafAbmL5'
+	      'X-Mashape-Key': "" + _environment.foodKey
 	    }
 	  };
 	};
@@ -306,15 +310,33 @@
 	    var url = myJson.sourceUrl;
 	    var source = myJson.sourceName;
 	    showRecipes(id, title, summary, source, url);
+	    showAllRecipes(id, title, summary, source, url);
 	  });
 	};
 
 	var showRecipes = exports.showRecipes = function showRecipes(id, title, summary, source, url) {
-	  $('.recipe-top3').append("<a href=\"" + url + "\"><h2>" + title + "</h2></a><h5>" + summary + "</h5><h5>" + source + "</h5>");
+	  if ($('ul').length < 3) {
+	    $('.recipe-top3').append("<ul><a href=\"" + url + "\"><h2>" + title + "</h2></a><p>" + summary + "<p><p>" + source + "</p></ul>");
+	  }
+	};
+
+	var showAllRecipes = function showAllRecipes(id, title, summary, source, url) {
+	  $('.recipes').append("<ul><a href=\"" + url + "\"><h2>" + title + "</h2></a><p>" + summary + "<p><p>" + source + "</p></ul>");
 	};
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var foodKey = exports.foodKey = 'naA1TYa7awmshQddYoMo0wcdrHxPp1SeyJijsnFre2GWR0zFD8';
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -412,14 +434,20 @@
 	};
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports) {
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.homeEventListeners = undefined;
+
+	var _lists = __webpack_require__(4);
+
+	var _ingredients = __webpack_require__(6);
+
 	var homeEventListeners = exports.homeEventListeners = function homeEventListeners() {
 
 	  var clicks = 6;
@@ -437,9 +465,13 @@
 	    return false;
 	  });
 
-	  $(".home").on('click', function () {
+	  $('.home').on('click', function () {
 	    window.location.href = 'http://localhost:8080';
 	    return false;
+	  });
+
+	  $('.more-recipes').on('click', function () {
+	    window.location.href = 'http://localhost:8080/recipes.html';
 	  });
 	};
 
@@ -447,18 +479,23 @@
 	  event.preventDefault();
 	  if ($('.name-input').val() === "") {
 	    alert("You must add at least 1 ingredient");
-	  } else postList().then(getIngredients);
+	  } else (0, _lists.postList)().then(_ingredients.getIngredients);
 	};
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports) {
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.getIngredients = exports.postIngredients = undefined;
+
+	var _lists = __webpack_require__(4);
+
+	var _recipe_service = __webpack_require__(2);
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -474,7 +511,7 @@
 	      return response.json();
 	    }).then(function (myJson) {
 	      var ing_id = myJson.id;
-	      postListIngredients(ing_id);
+	      (0, _lists.postListIngredients)(ing_id);
 	    }).catch(function (error) {
 	      return console.error(error);
 	    });
@@ -491,8 +528,8 @@
 	      ingredientList.push(element.value);
 	    }
 	  });
-	  console.log(ingredientList);
-	  getRecipes(ingredientList);
+
+	  (0, _recipe_service.getRecipes)(ingredientList);
 	  postIngredients(ingredientList);
 	};
 

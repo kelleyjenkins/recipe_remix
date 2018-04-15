@@ -2,6 +2,8 @@
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
 
+environment.js
+
 # Ignore Mac DS_Store
 *.DS_Store
 

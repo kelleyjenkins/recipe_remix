@@ -42,27 +42,151 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-	let clicks = 6;
+	"use strict";
+
+	var _login = __webpack_require__(1);
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	var baseUrl = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes";
+
+	var getConfig = function getConfig() {
+	  return {
+	    method: "GET",
+	    headers: {
+	      'Content-Type': 'application/json',
+	      'X-Mashape-Key': 'key'
+	    }
+	  };
+	};
+
+	(0, _login.signOutListener)();
+	//
+	//
+	// window.onSignIn = function onSignIn(googleUser) {
+	//   let profile = googleUser.getBasicProfile();
+	//   let id_token = googleUser.getAuthResponse().id_token;
+	//   console.log('Name: ' + profile.getName());
+	//   // console.log('Image URL: ' + profile.getImageUrl());
+	//   console.log('Email: ' + profile.getEmail());
+	//   console.log(id_token)
+	//   createUser(profile, id_token);
+	// }
+	//
+	// const createUser = (profile, id_token) => {
+	//   let body = { user: { name: profile.getName(),
+	//       email: profile.getEmail(),
+	//       token: id_token
+	//     } };
+	//   fetch('http://localhost:3000/api/v1/users', {
+	//     method: 'POST',
+	//     headers: { 'Accept': 'application/json',
+	//       'Content-Type': 'application/json' },
+	//     body: JSON.stringify(body)
+	//   }).then(response => response.json())
+	//     .then(myJson => {
+	//       let user = myJson.id
+	//       storeUser(user)})
+	//     .catch(error => console.error(error))
+	// };
+	//
+	// const storeUser = (id) => {
+	//   localStorage.setItem('user_id', id)
+	// }
+	//
+	//
+	// const signOut = () => {
+	//   const auth2 = gapi.auth2.getAuthInstance();
+	//   auth2.signOut()
+	//   .then(() =>  {
+	//     console.log('User signed out.');
+	//     localStorage.clear()
+	//   });
+	// }
+	//
+	// $(".g-signout2").click(signOut)
+
+	$(".profile").on('click', function () {
+	  window.location.href = 'http://localhost:8080/profile.html';
+	  return false;
+	});
+
+	$(".home").on('click', function () {
+	  window.location.href = 'http://localhost:8080';
+	  return false;
+	});
+
+	// $(window).on('load', () => {
+	//     loadLists()
+	// })
+
+	var loadLists = function loadLists() {
+	  var id = localStorage.getItem('user_id');
+	  console.log(id);
+	  fetch("http://localhost:3000/api/v1/users/" + id + "/lists").then(function (response) {
+	    return response.json();
+	  }).then(function (myJson) {
+	    var lists = Object.keys(myJson).map(function (list) {
+	      return myJson[list];
+	    });
+	    loadList(lists);
+	  });
+	};
+
+	var loadList = function loadList(lists) {
+	  lists.forEach(function (list) {
+	    $('.user_lists').append("<h4 class=\"list" + list.id + "\">" + list.name + "</h4>");
+	    loadListIngredients(list);
+	  });
+	};
+
+	var loadListIngredients = function loadListIngredients(list) {
+	  list.ingredients.forEach(function (ingredient) {
+	    $(".list" + list.id).append("<h6>" + ingredient.name + "</h6>");
+	  });
+	};
+
+	var clicks = 6;
 	$('.add-ingredient').on('click', function () {
-	  $('.ingredient-form-inputs').append(`<input title='ingredient-name' label='ingredient-name'type='text' data-id="${clicks}" class='name-input' placeholder='Ingredient'></br>`);
+	  $('.ingredient-form-inputs').append("<input title='ingredient-name' label='ingredient-name'type='text' data-id=\"" + clicks + "\" class='name-input' placeholder='Ingredient'></br>");
 	  clicks++;
 	});
 
-	$('.ingredient-button').click(() => validateForm(event));
+	$('.ingredient-button').click(function () {
+	  return validateForm(event);
+	});
 
-	const validateForm = event => {
+	var validateForm = function validateForm(event) {
 	  event.preventDefault();
 	  if ($('.name-input').val() === "") {
 	    alert("You must add at least 1 ingredient");
-	  } else getIngredients();
+	  } else postList().then(getIngredients);
 	};
 
-	const getIngredients = () => {
-	  let array = $('.ingredient-form-inputs').find('input.name-input');
-	  let ingArray = [...array];
-	  let ingredientList = [];
+	var postList = function postList() {
+	  var list = $('.list-name')[0].value;
+	  var id = localStorage.getItem('user_id');
+	  var body = { list: { name: list, user_id: id } };
+	  return fetch('http://localhost:3000/api/v1/lists', {
+	    method: 'POST',
+	    headers: { 'Accept': 'application/json',
+	      'Content-Type': 'application/json' },
+	    body: JSON.stringify(body)
+	  }).then(function (response) {
+	    return response.json();
+	  }).then(function (myJson) {
+	    localStorage.setItem('list_id', myJson.id);
+	  }).catch(function (error) {
+	    return console.error(error);
+	  });
+	};
+
+	var getIngredients = function getIngredients() {
+	  var array = $('.ingredient-form-inputs').find('input.name-input');
+	  var ingArray = [].concat(_toConsumableArray(array));
+	  var ingredientList = [];
 
 	  ingArray.forEach(function (element) {
 	    if (element.value != "") {
@@ -70,39 +194,145 @@
 	    }
 	  });
 	  getRecipes(ingredientList);
+	  postIngredients(ingredientList);
 	};
 
-	const getRecipes = ingredientList => {
-	  let stringIngredients = ingredientList.toString();
-	  fetch(`https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients?ingredients=${stringIngredients}&number=25&ranking=1`, { method: 'get',
-	    headers: {
-	      'Content-Type': 'application/json',
-	      'X-Mashape-Key': 'key'
-	    }
-	  }).then(response => response.json()).then(myJson => {
-	    const recipes = Object.keys(myJson).map(recipe => myJson[recipe]);
-	    showRecipes(recipes);
+	var postIngredients = function postIngredients(ingredientList) {
+	  ingredientList.forEach(function (ingredient) {
+	    var body = { ingredient: { name: ingredient } };
+	    fetch('http://localhost:3000/api/v1/ingredients', {
+	      method: 'POST',
+	      headers: { 'Accept': 'application/json',
+	        'Content-Type': 'application/json' },
+	      body: JSON.stringify(body)
+	    }).then(function (response) {
+	      return response.json();
+	    }).then(function (myJson) {
+	      var ing_id = myJson.id;
+	      postListIngredients(ing_id);
+	    }).catch(function (error) {
+	      return console.error(error);
+	    });
 	  });
 	};
 
-	getInformation = recipes => {
-
-	  recipes.forEach(recipe);
-	  let id = recipe[id];
-	  let title = recipe[title];
-	  getDescription(id, title);
-	  getURL(id, title);
-	};
-
-	getDescription = (id, title) => {
-	  let description;
-	};
-
-	const showRecipes = recipes => {
-	  recipes.forEach(recipe => {
-	    $('.recipe-top3').append(`<h2>${recipe.title}</h2>`);
+	var postListIngredients = function postListIngredients(ing_id) {
+	  var id_list = localStorage.getItem('list_id');
+	  var body = { list_ingredient: { list_id: id_list, ingredient_id: ing_id
+	    } };
+	  fetch('http://localhost:3000/api/v1/list_ingredients', {
+	    method: 'POST',
+	    headers: { 'Accept': 'application/json',
+	      'Content-Type': 'application/json' },
+	    body: JSON.stringify(body)
+	  }).then(function (response) {
+	    return response.text();
+	  }).then(function (myres) {
+	    return console.log(myres);
+	  }).catch(function (error) {
+	    return console.error(error);
 	  });
 	};
+
+	var getRecipes = function getRecipes(ingredientList) {
+	  var stringIngredients = ingredientList.toString();
+	  fetch(baseUrl + "/findByIngredients?ingredients=" + stringIngredients + "&number=5&ranking=1", getConfig()).then(function (response) {
+	    return response.json();
+	  }).then(function (myJson) {
+	    var recipes = Object.keys(myJson).map(function (recipe) {
+	      return myJson[recipe];
+	    });
+	    getInformation(recipes);
+	  });
+	};
+
+	var getInformation = function getInformation(recipes) {
+	  recipes.forEach(function (recipe) {
+	    var id = recipe.id;
+	    var title = recipe.title;
+	    getDescription(id, title);
+	  });
+	};
+
+	var getDescription = function getDescription(id, title) {
+	  fetch(baseUrl + "/" + id + "/summary", getConfig()).then(function (response) {
+	    return response.json();
+	  }).then(function (myJson) {
+	    var summary = myJson.summary;
+	    getURL(id, title, summary);
+	  });
+	};
+
+	var getURL = function getURL(id, title, summary) {
+	  fetch(baseUrl + "/" + id + "/information", getConfig()).then(function (response) {
+	    return response.json();
+	  }).then(function (myJson) {
+	    var url = myJson.sourceUrl;
+	    var source = myJson.sourceName;
+	    showRecipes(id, title, summary, source, url);
+	  });
+	};
+
+	var showRecipes = function showRecipes(id, title, summary, source, url) {
+	  $('.recipe-top3').append("<a href=\"" + url + "\"><h2>" + title + "</h2></a><h5>" + summary + "</h5><h5>" + source + "</h5>");
+	};
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var signOutListener = exports.signOutListener = function signOutListener() {
+	  $(".g-signout2").click(signOut);
+	};
+
+	window.onSignIn = function (googleUser) {
+	  var profile = googleUser.getBasicProfile();
+	  var id_token = googleUser.getAuthResponse().id_token;
+	  console.log('Name: ' + profile.getName());
+	  // console.log('Image URL: ' + profile.getImageUrl());
+	  console.log('Email: ' + profile.getEmail());
+	  console.log(id_token);
+	  createUser(profile, id_token);
+	};
+
+	var signOut = exports.signOut = function signOut() {
+	  var auth2 = gapi.auth2.getAuthInstance();
+	  auth2.signOut().then(function () {
+	    console.log('User signed out.');
+	    localStorage.clear();
+	  });
+	};
+
+	var createUser = function createUser(profile, id_token) {
+	  var body = { user: { name: profile.getName(),
+	      email: profile.getEmail(),
+	      token: id_token
+	    } };
+	  fetch('http://localhost:3000/api/v1/users', {
+	    method: 'POST',
+	    headers: { 'Accept': 'application/json',
+	      'Content-Type': 'application/json' },
+	    body: JSON.stringify(body)
+	  }).then(function (response) {
+	    return response.json();
+	  }).then(function (myJson) {
+	    var user = myJson.id;
+	    storeUser(user);
+	  }).catch(function (error) {
+	    return console.error(error);
+	  });
+	};
+
+	var storeUser = function storeUser(id) {
+	  localStorage.setItem('user_id', id);
+	};
+
+	module.exports = { onSignIn: onSignIn };
 
 /***/ })
 /******/ ]);

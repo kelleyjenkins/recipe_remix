@@ -5,11 +5,17 @@
     <meta name="google-signin-client_id" content="73088763316-7u8cgt7fc3hbjldchuplh183bc14sdi7.apps.googleusercontent.com">
     <title>Recipe Remix</title>
   </head>
-  <body>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
-    <div class="g-signout2"><a href="#">Sign out</a></div>
 
-    <h1> Recipe Remix </h1>
+  <body>
+
+    <div class="topnav">
+      <a class="active" href="http://localhost:8080">Recipe Remix</a>
+      <div id="google" class="g-signin2" data-onsuccess="onSignIn"></div>
+      <div class="g-signout2"><a href="http://localhost:8080">Sign out</a></div>
+    </div>
+
+
+    <h2> Enter Your Ingredients </h2>
     <form class = 'ingredient-form' name = 'ingredient-form'>
       <div class='ingredient-form-inputs'>
         <input title='list-name' label='list-name' type='text' class='list-name' placeholder='List Name'></br>

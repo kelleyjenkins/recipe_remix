@@ -258,7 +258,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.showRecipes = exports.getURL = exports.getDescription = exports.getInformation = exports.getRecipes = exports.getConfig = exports.baseUrl = undefined;
+	exports.showAllRecipes = exports.showRecipes = exports.getURL = exports.getDescription = exports.getInformation = exports.getRecipes = exports.getConfig = exports.baseUrl = undefined;
 
 	var _environment = __webpack_require__(3);
 
@@ -320,7 +320,7 @@
 	  }
 	};
 
-	var showAllRecipes = function showAllRecipes(id, title, summary, source, url) {
+	var showAllRecipes = exports.showAllRecipes = function showAllRecipes(id, title, summary, source, url) {
 	  $('.recipes').append("<ul><a href=\"" + url + "\"><h2>" + title + "</h2></a><p>" + summary + "<p><p>" + source + "</p></ul>");
 	};
 
@@ -448,7 +448,14 @@
 
 	var _ingredients = __webpack_require__(6);
 
+	var _recipe_service = __webpack_require__(2);
+
 	var homeEventListeners = exports.homeEventListeners = function homeEventListeners() {
+
+	  $(window).on('load', function () {
+	    var ingList = localStorage.getItem('ingredients');
+	    (0, _recipe_service.getRecipes)(ingList);
+	  });
 
 	  var clicks = 6;
 	  $('.add-ingredient').on('click', function () {
@@ -466,6 +473,7 @@
 	  });
 
 	  $('.home').on('click', function () {
+	    localStorage.removeItem('ingredients');
 	    window.location.href = 'http://localhost:8080';
 	    return false;
 	  });
@@ -528,7 +536,7 @@
 	      ingredientList.push(element.value);
 	    }
 	  });
-
+	  localStorage.setItem('ingredients', ingredientList);
 	  (0, _recipe_service.getRecipes)(ingredientList);
 	  postIngredients(ingredientList);
 	};

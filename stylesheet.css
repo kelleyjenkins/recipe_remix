@@ -1,15 +1,17 @@
 @import url("https://fonts.googleapis.com/css?family=IBM+Plex+Serif");
 
+body {
+  font-family: 'IBM Plex Serif', serif;
+  height: 100%;
+}
 
 html {
   background-image: url('https://images.pexels.com/photos/459469/pexels-photo-459469.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+  height: auto;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-body {
-  font-family: 'IBM Plex Serif', serif;
-}
 
 h2 {
   text-align: center;

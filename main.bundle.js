@@ -50,15 +50,15 @@
 
 	var _recipe_service = __webpack_require__(2);
 
-	var _lists = __webpack_require__(4);
+	var _lists = __webpack_require__(3);
 
-	var _home_view = __webpack_require__(5);
+	var _home_view = __webpack_require__(4);
 
-	var _ingredients = __webpack_require__(6);
+	var _ingredients = __webpack_require__(5);
 
-	var _users_recipes = __webpack_require__(7);
+	var _users_recipes = __webpack_require__(6);
 
-	__webpack_require__(8);
+	__webpack_require__(7);
 
 	(0, _login.signOutListener)();
 	(0, _home_view.homeEventListeners)();
@@ -119,17 +119,13 @@
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.showAllRecipes = exports.showRecipes = exports.getURL = exports.getDescription = exports.getInformation = exports.getRecipes = exports.getConfig = exports.baseUrl = undefined;
-
-	var _environment = __webpack_require__(3);
-
 	var baseUrl = exports.baseUrl = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes";
 
 	var getConfig = exports.getConfig = function getConfig() {
@@ -137,7 +133,7 @@
 	    method: "GET",
 	    headers: {
 	      'Content-Type': 'application/json',
-	      'X-Mashape-Key': "" + _environment.foodKey
+	      'X-Mashape-Key': "" + foodKey
 	    }
 	  };
 	};
@@ -194,17 +190,6 @@
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var foodKey = exports.foodKey = 'naA1TYa7awmshQddYoMo0wcdrHxPp1SeyJijsnFre2GWR0zFD8';
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -315,7 +300,7 @@
 	}
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -325,13 +310,13 @@
 	});
 	exports.homeEventListeners = undefined;
 
-	var _lists = __webpack_require__(4);
+	var _lists = __webpack_require__(3);
 
-	var _ingredients = __webpack_require__(6);
+	var _ingredients = __webpack_require__(5);
 
 	var _recipe_service = __webpack_require__(2);
 
-	var _users_recipes = __webpack_require__(7);
+	var _users_recipes = __webpack_require__(6);
 
 	var homeEventListeners = exports.homeEventListeners = function homeEventListeners() {
 
@@ -353,18 +338,18 @@
 	  });
 
 	  $(".profile").on('click', function () {
-	    window.location.href = 'http://localhost:8080/profile.html';
+	    window.location.href = 'https://kelleyjenkins.github.io/recipe_remix/profile.html';
 	    return false;
 	  });
 
 	  $('.home').on('click', function () {
 	    localStorage.removeItem('ingredients');
-	    window.location.href = 'http://localhost:8080';
+	    window.location.href = 'https://kelleyjenkins.github.io/recipe_remix';
 	    return false;
 	  });
 
 	  $('.more-recipes').on('click', function () {
-	    window.location.href = 'http://localhost:8080/recipes.html';
+	    window.location.href = 'https://kelleyjenkins.github.io/recipe_remix/recipes.html';
 	  });
 
 	  $('.recipe-top3').on('click', '.save-recipe', function () {
@@ -379,7 +364,7 @@
 	  });
 
 	  $('.user_lists').on('click', '.get-recipes', function () {
-	    window.location.href = 'http://localhost:8080/recipes.html';
+	    window.location.href = 'https://kelleyjenkins.github.io/recipe_remix/recipes.html';
 	    localStorage.removeItem('ingredients');
 	    _lists.findListRecipes.call(this);
 	  });
@@ -393,7 +378,7 @@
 	};
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -403,7 +388,7 @@
 	});
 	exports.getIngredients = exports.postIngredients = undefined;
 
-	var _lists = __webpack_require__(4);
+	var _lists = __webpack_require__(3);
 
 	var _recipe_service = __webpack_require__(2);
 
@@ -444,7 +429,7 @@
 	};
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -524,16 +509,16 @@
 	};
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(9);
+	var content = __webpack_require__(8);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(11)(content, {});
+	var update = __webpack_require__(10)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -550,10 +535,10 @@
 	}
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(10)();
+	exports = module.exports = __webpack_require__(9)();
 	// imports
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=IBM+Plex+Serif);", ""]);
 
@@ -564,7 +549,7 @@
 
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports) {
 
 	/*
@@ -620,7 +605,7 @@
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*

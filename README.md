@@ -4,7 +4,7 @@ Recipe Remix is an app that allows users to find recipes based on ingredients th
 
 ### Deployment
  The front-end for this app is deployed at <http://rigid-downtown.surge.sh/>  
- The back-end for this app is deployed at <https://fathomless-plateau-58961.herokuapp.com/  
+ The back-end for this app is deployed at <https://fathomless-plateau-58961.herokuapp.com/>
  The back-end repo can be found here: <https://github.com/kelleyjenkins/recipe_remix/>  
 
 ## Getting Started

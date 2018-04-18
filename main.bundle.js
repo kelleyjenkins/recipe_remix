@@ -96,7 +96,7 @@
 	      email: profile.getEmail(),
 	      token: id_token
 	    } };
-	  fetch('http://localhost:3000/api/v1/users', {
+	  fetch('https://fathomless-plateau-58961.herokuapp.com/api/v1/users', {
 	    method: 'POST',
 	    headers: { 'Accept': 'application/json',
 	      'Content-Type': 'application/json' },
@@ -126,6 +126,8 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	// import {foodKey} from '../environment.js'
+
 	var baseUrl = exports.baseUrl = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes";
 
 	var getConfig = exports.getConfig = function getConfig() {
@@ -207,7 +209,7 @@
 	var loadLists = exports.loadLists = function loadLists() {
 	  var id = localStorage.getItem('user_id');
 	  console.log(id);
-	  fetch('http://localhost:3000/api/v1/users/' + id + '/lists').then(function (response) {
+	  fetch('https://fathomless-plateau-58961.herokuapp.com/api/v1/users/' + id + '/lists').then(function (response) {
 	    return response.json();
 	  }).then(function (myJson) {
 	    var lists = Object.keys(myJson).map(function (list) {
@@ -234,7 +236,7 @@
 	  var id_list = localStorage.getItem('list_id');
 	  var body = { list_ingredient: { list_id: id_list, ingredient_id: ing_id
 	    } };
-	  fetch('http://localhost:3000/api/v1/list_ingredients', {
+	  fetch('https://fathomless-plateau-58961.herokuapp.com/api/v1/list_ingredients', {
 	    method: 'POST',
 	    headers: { 'Accept': 'application/json',
 	      'Content-Type': 'application/json' },
@@ -252,7 +254,7 @@
 	  var list = $('.list-name')[0].value;
 	  var id = localStorage.getItem('user_id');
 	  var body = { list: { name: list, user_id: id } };
-	  return fetch('http://localhost:3000/api/v1/lists', {
+	  return fetch('https://fathomless-plateau-58961.herokuapp.com/api/v1/lists', {
 	    method: 'POST',
 	    headers: { 'Accept': 'application/json',
 	      'Content-Type': 'application/json' },
@@ -278,7 +280,7 @@
 	}
 
 	var removeList = exports.removeList = function removeList(listId) {
-	  fetch('http://localhost:3000/api/v1/lists/' + listId, {
+	  fetch('https://fathomless-plateau-58961.herokuapp.com/api/v1/' + listId, {
 	    method: 'Delete'
 	  }).then(function (response) {
 	    return console.log(response);
@@ -338,18 +340,18 @@
 	  });
 
 	  $(".profile").on('click', function () {
-	    window.location.href = 'https://kelleyjenkins.github.io/recipe_remix/profile.html';
+	    window.location.href = 'http://rigid-downtown.surge.sh/profile.html';
 	    return false;
 	  });
 
 	  $('.home').on('click', function () {
 	    localStorage.removeItem('ingredients');
-	    window.location.href = 'https://kelleyjenkins.github.io/recipe_remix';
+	    window.location.href = 'http://rigid-downtown.surge.sh/';
 	    return false;
 	  });
 
 	  $('.more-recipes').on('click', function () {
-	    window.location.href = 'https://kelleyjenkins.github.io/recipe_remix/recipes.html';
+	    window.location.href = 'http://rigid-downtown.surge.sh/recipes.html';
 	  });
 
 	  $('.recipe-top3').on('click', '.save-recipe', function () {
@@ -364,7 +366,7 @@
 	  });
 
 	  $('.user_lists').on('click', '.get-recipes', function () {
-	    window.location.href = 'https://kelleyjenkins.github.io/recipe_remix/recipes.html';
+	    window.location.href = 'http://rigid-downtown.surge.sh/recipes.html';
 	    localStorage.removeItem('ingredients');
 	    _lists.findListRecipes.call(this);
 	  });
@@ -397,7 +399,7 @@
 	var postIngredients = exports.postIngredients = function postIngredients(ingredientList) {
 	  ingredientList.forEach(function (ingredient) {
 	    var body = { ingredient: { name: ingredient } };
-	    fetch('http://localhost:3000/api/v1/ingredients', {
+	    fetch('https://fathomless-plateau-58961.herokuapp.com/api/v1/ingredients', {
 	      method: 'POST',
 	      headers: { 'Accept': 'application/json',
 	        'Content-Type': 'application/json' },
@@ -448,7 +450,7 @@
 
 	var loadRecipes = exports.loadRecipes = function loadRecipes() {
 	  var id = localStorage.getItem('user_id');
-	  fetch('http://localhost:3000/api/v1/users/' + id + '/recipes').then(function (response) {
+	  fetch('https://fathomless-plateau-58961.herokuapp.com/api/v1/users/' + id + '/recipes').then(function (response) {
 	    return response.json();
 	  }).then(function (myJson) {
 	    var recipes = Object.keys(myJson).map(function (recipe) {
@@ -478,7 +480,7 @@
 	      url: url,
 	      user_id: user
 	    } };
-	  fetch('http://localhost:3000/api/v1/recipes', {
+	  fetch('https://fathomless-plateau-58961.herokuapp.com/api/v1/recipes', {
 	    method: 'POST',
 	    headers: { 'Accept': 'application/json',
 	      'Content-Type': 'application/json' },
@@ -499,7 +501,7 @@
 	}
 
 	var removeRecipe = function removeRecipe(id) {
-	  fetch('http://localhost:3000/api/v1/recipes/' + id, {
+	  fetch('https://fathomless-plateau-58961.herokuapp.com/api/v1/' + id, {
 	    method: 'Delete'
 	  }).then(function (response) {
 	    return console.log(response);
@@ -543,7 +545,7 @@
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=IBM+Plex+Serif);", ""]);
 
 	// module
-	exports.push([module.id, "body {\n  font-family: 'IBM Plex Serif', serif;\n  height: 100%;\n}\n\nhtml {\n  background-image: url('https://images.pexels.com/photos/459469/pexels-photo-459469.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');\n  height: 100%;\n  background-repeat: no-repeat;\n  background-size: cover;\n}\n\nbutton {\n    color: black;\n    background-color: #8CB667;\n    border: 2px solid black; /* Green */\n    padding: 10px 10px;\n    text-align: center;\n    text-decoration: none;\n    display: inline-block;\n    font-size: 14px;\n    border-radius: 4px;\n\n}\n\nh2 {\n  text-align: center;\n  font-size: 28px;\n  color: #FDA607\n}\n\n.topnav {\n    background-color: #8CB667;\n    overflow: hidden;\n}\n\n#google {\n  float: right;\n  padding-top:  7px;\n  padding-right: 7px;\n}\n\n.g-signout2 {\n  float: right;\n}\n\n.topnav a {\n    float: left;\n    color: black;\n    text-align: center;\n    padding: 14px 16px;\n    text-decoration: none;\n    font-size: 20px;\n}\n\n/* Change the color of links on hover */\n.topnav a:hover {\n    color: red;\n}\n\n/* Add a color to the active/current link */\n.topnav a.active {\n    background-color: #8CB667;\n    color: black;\n}\n\n\n.ingredient-form {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.ingredient-form-inputs {\n  width: 300px;\n}\n\ninput[type=text] {\n    width: 100%;\n    padding: 12px 20px;\n    margin: 8px 0;\n    display: inline-block;\n    border: 1px solid #ccc;\n    border-radius: 4px;\n    box-sizing: border-box;\n}\n\n.recipe_lists {\n  width: 500px;\n  border: 1px solid black;\n  border-radius: 10px;\n  background-color: #ffffff;\n  opacity: 0.7;\n  margin: 30px;\n}\n\n.recipe-delete {\n  float: right;\n  color: black;\n  background: #8CB667;\n  border: 2px solid #4CAF50; /* Green */\n  padding: 5px 5px;\n  margin: 5px;\n  display: inline-block;\n  font-size: 10px;\n  border-radius: 2px;\n}\n\n.recipe-card {\n  border: 1px solid black;\n  border-radius: 10px;\n  background-color: #ffffff;\n  opacity: 0.7;\n  padding-right: 30px;\n  margin: 30px;\n}\n.user_lists {\n  display: flex;\n}\n.userlist {\n  width: 200px;\n  text-align: center;\n  border: 1px solid black;\n  border-radius: 10px;\n  background-color: #ffffff;\n  opacity: 0.7;\n  margin: 30px;\n}\n", ""]);
+	exports.push([module.id, "body {\n  font-family: 'IBM Plex Serif', serif;\n  height: auto;\n}\n\nhtml {\n  background-image: url('https://images.pexels.com/photos/459469/pexels-photo-459469.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');\n  height: auto;\n  background-repeat: no-repeat;\n  background-size: cover;\n}\n\nbutton {\n    color: black;\n    background-color: #8CB667;\n    border: 2px solid black; /* Green */\n    padding: 10px 10px;\n    margin: 10px;\n    text-align: center;\n    text-decoration: none;\n    display: inline-block;\n    font-size: 14px;\n    border-radius: 4px;\n\n}\n\n.ingredient-button {\n  color: black;\n  background-color: #8CB667;\n  border: 2px solid black; /* Green */\n  padding: 10px 10px;\n  text-align: center;\n  text-decoration: none;\n  display: inline-block;\n  font-size: 14px;\n  border-radius: 4px;\n}\n\nh1 {\n  text-align: center;\n  font-size: 28px;\n  color: black;\n}\n\n.topnav {\n    background-color: #8CB667;\n    overflow: hidden;\n}\n\n#google {\n  float: right;\n  padding-top:  7px;\n  padding-right: 7px;\n}\n\n.g-signout2 {\n  float: right;\n}\n\n.topnav a {\n    float: left;\n    color: black;\n    text-align: center;\n    padding: 14px 16px;\n    text-decoration: none;\n    font-size: 20px;\n}\n\n/* Change the color of links on hover */\n.topnav a:hover {\n    color: red;\n}\n\n/* Add a color to the active/current link */\n.topnav a.active {\n    background-color: #8CB667;\n    color: black;\n}\n\n\n.ingredient-form {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.ingredient-form-inputs {\n  width: 300px;\n}\n\ninput[type=text] {\n    width: 100%;\n    padding: 12px 20px;\n    margin: 8px 0;\n    display: inline-block;\n    border: 1px solid #ccc;\n    border-radius: 4px;\n    box-sizing: border-box;\n}\n\n.recipe_lists {\n  width: 500px;\n  border: 1px solid black;\n  border-radius: 10px;\n  background-color: #ffffff;\n  opacity: 0.7;\n  margin: 30px;\n  padding-left:10px;\n}\n\n.recipe-delete {\n  float: right;\n  color: black;\n  background: #8CB667;\n  border: 2px solid #4CAF50; /* Green */\n  padding: 5px 5px;\n  margin: 5px;\n  display: inline-block;\n  font-size: 10px;\n  border-radius: 2px;\n}\n\n.recipe-card {\n  border: 1px solid black;\n  border-radius: 10px;\n  background-color: #ffffff;\n  opacity: 0.7;\n  padding-right: 30px;\n  margin: 30px;\n}\n.user_lists {\n  display: flex;\n}\n.userlist {\n  width: 200px;\n  text-align: center;\n  border: 1px solid black;\n  border-radius: 10px;\n  background-color: #ffffff;\n  opacity: 0.7;\n  margin: 30px;\n}\n", ""]);
 
 	// exports
 

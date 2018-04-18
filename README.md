@@ -1,6 +1,6 @@
 # Recipe Remix
 
-Recipe Remix is an app that allows users to find recipes based on ingredients they have on hand. Users can enter ingredients into the form, the list will save for that user to be used in the future, user can save recipes, along with deleting existing lists and recipes. The front-end is built with JavaScript, JQuery, HTML and CSS. 
+Recipe Remix is an app that allows users to find recipes based on ingredients they have on hand. Users can enter ingredients into the form and return recipes that include those ingredients. The ingredient list will save for that user to be used in the future, user can save recipes, along with deleting existing lists and recipes. The front-end is built with JavaScript, JQuery, HTML and CSS. 
 
 ### Deployment
  The front-end for this app is deployed at <http://rigid-downtown.surge.sh/>  

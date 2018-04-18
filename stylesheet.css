@@ -2,12 +2,12 @@
 
 body {
   font-family: 'IBM Plex Serif', serif;
-  height: 100%;
+  height: auto;
 }
 
 html {
   background-image: url('https://images.pexels.com/photos/459469/pexels-photo-459469.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
-  height: 100%;
+  height: auto;
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -17,6 +17,7 @@ button {
     background-color: #8CB667;
     border: 2px solid black; /* Green */
     padding: 10px 10px;
+    margin: 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -25,10 +26,22 @@ button {
 
 }
 
-h2 {
+.ingredient-button {
+  color: black;
+  background-color: #8CB667;
+  border: 2px solid black; /* Green */
+  padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+h1 {
   text-align: center;
   font-size: 28px;
-  color: #FDA607
+  color: black;
 }
 
 .topnav {
@@ -94,6 +107,7 @@ input[type=text] {
   background-color: #ffffff;
   opacity: 0.7;
   margin: 30px;
+  padding-left:10px;
 }
 
 .recipe-delete {

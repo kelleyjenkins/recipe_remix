@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="google-signin-client_id" content="73088763316-up0m2pgojiu06d143t3v25uf1nsf975a.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="73088763316-dokka7b9t2ohpe4dccto6giq0unmrtqt.apps.googleusercontent.com">
     <title>Recipe Remix</title>
   </head>
 
   <body>
-
+    <main>
     <div class="topnav">
-      <a class="active" href="http://localhost:8080">Recipe Remix</a>
+      <a class="active" href="http://rigid-downtown.surge.sh">Recipe Remix</a>
+      <a class="profile" href="http://rigid-downtown.surge.sh/profile.html">Profile</a>
       <div id="google" class="g-signin2" data-onsuccess="onSignIn"></div>
-      <div class="g-signout2"><a href="https://kelleyjenkins.github.io/recipe_remix/">Sign out</a></div>
+      <div class="g-signout2"><a href="http://rigid-downtown.surge.sh">Sign out</a></div>
     </div>
 
 
-    <h2> Enter Your Ingredients </h2>
+    <h1> Enter Your Ingredients </h1>
     <form class = 'ingredient-form' name = 'ingredient-form'>
       <div class='ingredient-form-inputs'>
         <input title='list-name' label='list-name' type='text' class='list-name' placeholder='List Name'></br>
@@ -27,9 +28,9 @@
       </div>
       <button class="add-ingredient" label='add-ingredient' type="button" value="Add Ingredient">Add Ingredient</button></br>
 
-      <input label='submit' class="ingredient-button" type="submit" name="submit" value="Submit">
+      <input label='submit' class="ingredient-button" type="submit" name="submit" value="Get Recipes">
     </form>
-    <button class="profile" label='view-profile' type="button" value="View Profile">View Profile</button></br>
+    <!-- <button class="profile" label='view-profile' type="button" value="View Profile">View Profile</button></br> -->
 
 <div class="recipe-top3">
 
@@ -41,6 +42,6 @@
     <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
     <!-- <script src="./lib/main.js"></script> -->
     <script src="main.bundle.js"></script>
-
+  </main>
   </body>
 </html>

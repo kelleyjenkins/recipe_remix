@@ -54,7 +54,7 @@
 
 	var _home_view = __webpack_require__(4);
 
-	var _ingredients = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./ingredients.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _ingredients = __webpack_require__(5);
 
 	var _users_recipes = __webpack_require__(6);
 
@@ -135,65 +135,51 @@
 	    method: "GET",
 	    headers: {
 	      'Content-Type': 'application/json',
-	      'X-Yummly-App-ID': '9901fadf',
-	      'X-Yummly-App-Key': 'b61063226caf5e9a1c1d79b0f77a2e37'
+	      'X-Yummly-App-ID': '',
+	      'X-Yummly-App-Key': ''
 	    }
 	  };
 	};
 
 	var getRecipes = exports.getRecipes = function getRecipes(query) {
-
-	  // let stringIngredients = ingredientList.toString();
-	  // fetch(`${baseUrl}/findByIngredients?ingredients=${stringIngredients}&number=5&ranking=1`, getConfig()).then(response => response.json())
-	  fetch(baseUrl + "/recipes?" + query).then(function (myJson) {
-	    var recipes = Object.keys(myJson).map(function (recipe) {
-	      return myJson[matches];
-	    });
-	    getInformation(recipes);
+	  fetch(baseUrl + "/recipes?" + query, getConfig()).then(function (response) {
+	    return response.json();
+	  }).then(function (myJson) {
+	    var recipes = myJson.matches;
+	    getId(recipes);
 	  });
 	};
 
-	var getInformation = exports.getInformation = function getInformation(recipes) {
+	var getId = exports.getId = function getId(recipes) {
 	  recipes.forEach(function (recipe) {
 	    var id = recipe.id;
-	    var title = recipe.title;
-	    // getDescription(id, title);
+	    getInformation(id);
 	  });
 	};
-	//
-	// export const getDescription = (id, title) => {
-	//   fetch(`${baseUrl}/${id}/summary`, getConfig())
-	//   .then(response => response.json())
-	//   .then(myJson => {
-	//     let summary = myJson.summary;
-	//     getURL(id, title, summary);
-	//   });
-	// };
-	//
-	// export const getURL = (id, title, summary) => {
-	//   fetch(`${baseUrl}/${id}/information`, getConfig()).then(response => response.json()).then(myJson => {
-	//     let url = myJson.sourceUrl;
-	//     let source = myJson.sourceName;
-	//     showRecipes(id, title, summary, source, url);
-	//     showAllRecipes(id, title, summary, source, url);
-	//   });
-	// };
 
-	var showRecipes = exports.showRecipes = function showRecipes(id, title, summary, source, url) {
+	var getInformation = exports.getInformation = function getInformation(id) {
+	  fetch(baseUrl + "/recipe/" + id, getConfig()).then(function (response) {
+	    return response.json();
+	  }).then(function (myJson) {
+	    var name = myJson.name;
+	    var source = myJson.source.sourceDisplayName;
+	    var url = myJson.source.sourceRecipeUrl;
+	    var time = myJson.totalTime;
+	    console.log(name);
+	    showRecipes(id, name, time, source, url);
+	    showAllRecipes(id, name, time, source, url);
+	  });
+	};
+
+	var showRecipes = exports.showRecipes = function showRecipes(id, name, time, source, url) {
 	  if ($('ul').length < 3) {
-	    $('.recipe-top3').append("<div class=\"recipe-card\"><ul class=\"ul\"><h3 class=\"title\">" + title + "</h3><button class=\"save-recipe\" label='save-recipe' type=\"button\" value=\"Save Recipe\">Save Recipe</button></ul></div>");
+	    $('.recipe-top3').append("<div class=\"recipe-card\"><ul class=\"ul\"><a class=\"recipe_url\" href=\"" + url + "\"><h3 class=\"title\">" + name + "</h3></a><p>" + source + "</p><p>" + time + "</p><button class=\"save-recipe\" label='save-recipe' type=\"button\" value=\"Save Recipe\">Save Recipe</button></ul></div>");
 	  }
 	};
-	//
-	// export const showRecipes = (id, title, summary, source, url) => {
-	//   if ($('ul').length < 3) {
-	//     $('.recipe-top3').append(`<div class="recipe-card"><ul class="ul"><a class="recipe_url" href="${url}"><h3 class="title">${title}</h3></a><p>${summary}</p><p>${source}</p><button class="save-recipe" label='save-recipe' type="button" value="Save Recipe">Save Recipe</button></ul></div>`);
-	//   }
-	// };
-	//
-	// export const showAllRecipes = (id, title, summary, source, url) => {
-	//   $('.recipes').append(`<div class="recipe-card"><ul class="ul"><a class="recipe_url"  href="${url}"><h3>${title}</h3></a><p>${summary}</p><p>${source}</p><button class="save-recipe" label='save-recipe' type="button" value="Save Recipe">Save Recipe</button></ul></div>`)
-	// }
+
+	var showAllRecipes = exports.showAllRecipes = function showAllRecipes(id, name, time, source, url) {
+	  $('.recipes').append("<div class=\"recipe-card\"><ul class=\"ul\"><a class=\"recipe_url\"  href=\"" + url + "\"><h3>" + name + "</h3></a><p>" + source + "</p><p>" + time + "</p><button class=\"save-recipe\" label='save-recipe' type=\"button\" value=\"Save Recipe\">Save Recipe</button></ul></div>");
+	};
 
 /***/ }),
 /* 3 */
@@ -206,10 +192,11 @@
 	});
 	exports.handleListDelete = handleListDelete;
 	exports.findListRecipes = findListRecipes;
-
-	$(window).on('load', function () {
-	  loadLists();
-	});
+	if (window.location.pathname == "/profile.html") {
+	  $(window).on('load', function () {
+	    loadLists();
+	  });
+	}
 
 	var loadLists = exports.loadLists = function loadLists() {
 	  var id = localStorage.getItem('user_id');
@@ -296,14 +283,14 @@
 
 	function findListRecipes() {
 	  var ingredients = $(this).closest(".userlist").find('h6');
-	  var ingredients_array = Object.keys(ingredients).map(function (ings) {
+	  var ingredientsArray = Object.keys(ingredients).map(function (ings) {
 	    return ingredients[ings];
 	  });
-	  var ingarray = [];
-	  ingredients_array.forEach(function (ingredient) {
-	    ingarray.push(ingredient.innerText);
+	  var ingArray = [];
+	  ingredientsArray.forEach(function (ingredient) {
+	    ingArray.push(ingredient.innerText);
 	  });
-	  localStorage.setItem('ingredients', ingarray);
+	  localStorage.setItem('ingredients', ingArray);
 	}
 
 /***/ }),
@@ -319,7 +306,7 @@
 
 	var _lists = __webpack_require__(3);
 
-	var _ingredients = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./ingredients.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _ingredients = __webpack_require__(5);
 
 	var _recipe_service = __webpack_require__(2);
 
@@ -327,11 +314,14 @@
 
 	var homeEventListeners = exports.homeEventListeners = function homeEventListeners() {
 
-	  $(window).on('load', function () {
-	    $('.more-recipes').hide();
-	    var ingList = localStorage.getItem('ingredients');
-	    (0, _recipe_service.getRecipes)(ingList);
-	  });
+	  if (window.location.pathname == "/recipes.html") {
+	    $(window).on('load', function () {
+	      $('.more-recipes').hide();
+	      var ingList = localStorage.getItem('ingredients');
+	      var ingredientList = JSON.parse(ingList);
+	      (0, _ingredients.formatIngs)(ingredientList);
+	    });
+	  };
 
 	  var clicks = 6;
 	  $('.add-ingredient').on('click', function () {
@@ -356,7 +346,7 @@
 	  });
 
 	  $('.more-recipes').on('click', function () {
-	    window.location.href = 'http://rigid-downtown.surge.sh/recipes.html';
+	    window.location.href = 'http://localhost:8080/recipes.html';
 	  });
 
 	  $('.recipe-top3').on('click', '.save-recipe', function () {
@@ -385,7 +375,67 @@
 	};
 
 /***/ }),
-/* 5 */,
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.formatIngs = exports.getIngredients = exports.postIngredients = undefined;
+
+	var _lists = __webpack_require__(3);
+
+	var _recipe_service = __webpack_require__(2);
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	var postIngredients = exports.postIngredients = function postIngredients(ingredientList) {
+	  ingredientList.forEach(function (ingredient) {
+	    var body = { ingredient: { name: ingredient } };
+	    fetch('https://fathomless-plateau-58961.herokuapp.com/api/v1/ingredients', {
+	      method: 'POST',
+	      headers: { 'Accept': 'application/json',
+	        'Content-Type': 'application/json' },
+	      body: JSON.stringify(body)
+	    }).then(function (response) {
+	      return response.json();
+	    }).then(function (myJson) {
+	      var ing_id = myJson.id;
+	      (0, _lists.postListIngredients)(ing_id);
+	    }).catch(function (error) {
+	      return console.error(error);
+	    });
+	  });
+	};
+
+	var getIngredients = exports.getIngredients = function getIngredients() {
+	  var array = $('.ingredient-form-inputs').find('input.name-input');
+	  var ingArray = [].concat(_toConsumableArray(array));
+	  var ingredientList = [];
+
+	  ingArray.forEach(function (element) {
+	    if (element.value != "") {
+	      ingredientList.push(element.value);
+	    }
+	  });
+	  localStorage.setItem('ingredients', JSON.stringify(ingredientList));
+	  formatIngs(ingredientList);
+	  // getRecipes(ingredientList);
+	  postIngredients(ingredientList);
+	};
+
+	var formatIngs = exports.formatIngs = function formatIngs(ingredientList) {
+	  var query = "";
+	  ingredientList.forEach(function (ing) {
+	    query = query + ('&allowedIngredient[]=' + ing);
+	  });
+	  console.log(query);
+	  (0, _recipe_service.getRecipes)(query);
+	};
+
+/***/ }),
 /* 6 */
 /***/ (function(module, exports) {
 
@@ -397,9 +447,11 @@
 	exports.handleSave = handleSave;
 	exports.handleRecipeDelete = handleRecipeDelete;
 
-	$(window).on('load', function () {
-	  loadRecipes();
-	});
+	if (window.location.pathname == "/profile.html") {
+	  $(window).on('load', function () {
+	    loadRecipes();
+	  });
+	}
 
 	// load recipes
 

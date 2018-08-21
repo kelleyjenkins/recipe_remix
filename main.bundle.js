@@ -71,16 +71,17 @@
 
 	var signOutListener = function signOutListener() {
 	  $(".g-signout2").click(signOut);
+	  $('.g-signin2').show();
+	  $('.profile').hide();
 	};
 
 	window.onSignIn = function (googleUser) {
 	  var profile = googleUser.getBasicProfile();
 	  var id_token = googleUser.getAuthResponse().id_token;
-	  console.log('Name: ' + profile.getName());
-	  // console.log('Image URL: ' + profile.getImageUrl());
-	  console.log('Email: ' + profile.getEmail());
-	  console.log(id_token);
 	  createUser(profile, id_token);
+	  $('.g-signin2').hide();
+	  $('.g-signout2').show();
+	  $('.profile').show();
 	};
 
 	var signOut = function signOut() {
@@ -395,13 +396,20 @@
 
 	  if (window.location.pathname == "/recipes.html") {
 	    $(window).on('load', function () {
-	      $('.more-recipes').hide();
+	      $('body').show();
 	      var ingList = localStorage.getItem('ingredients');
 	      var ingredientList = JSON.parse(ingList);
-	      console.log(ingredientList);
 	      (0, _ingredients.formatIngs)(ingredientList);
 	    });
 	  };
+
+	  $(document).ready(function () {
+	    $('body').hide();
+	    $('.more-recipes').hide();
+	    $(window).on('load', function () {
+	      $('body').show();
+	    });
+	  });
 
 	  var clicks = 6;
 	  $('.add-ingredient').on('click', function () {
@@ -570,7 +578,7 @@
 	exports.push([module.id, "@import url(https://fonts.googleapis.com/css?family=IBM+Plex+Serif);", ""]);
 
 	// module
-	exports.push([module.id, "body {\n  font-family: 'IBM Plex Serif', serif;\n  height: auto;\n}\n\nhtml {\n  background-image: url('https://images.pexels.com/photos/459469/pexels-photo-459469.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');\n  height: auto;\n  background-repeat: no-repeat;\n  background-size: cover;\n}\n\nbutton {\n    color: black;\n    background-color: #8CB667;\n    border: 2px solid black; /* Green */\n    padding: 10px 10px;\n    margin: 10px;\n    text-align: center;\n    text-decoration: none;\n    display: inline-block;\n    font-size: 14px;\n    border-radius: 4px;\n\n}\n\n.ingredient-button {\n  color: black;\n  background-color: #8CB667;\n  border: 2px solid black; /* Green */\n  padding: 10px 10px;\n  text-align: center;\n  text-decoration: none;\n  display: inline-block;\n  font-size: 14px;\n  border-radius: 4px;\n}\n\nh1 {\n  text-align: center;\n  font-size: 28px;\n  color: black;\n}\n\n.topnav {\n    background-color: #8CB667;\n    overflow: hidden;\n}\n\n#google {\n  float: right;\n  padding-top:  7px;\n  padding-right: 7px;\n}\n\n.g-signout2 {\n  float: right;\n}\n\n.topnav a {\n    float: left;\n    color: black;\n    text-align: center;\n    padding: 14px 16px;\n    text-decoration: none;\n    font-size: 20px;\n}\n\n/* Change the color of links on hover */\n.topnav a:hover {\n    color: red;\n}\n\n/* Add a color to the active/current link */\n.topnav a.active {\n    background-color: #8CB667;\n    color: black;\n}\n\n\n.ingredient-form {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.ingredient-form-inputs {\n  width: 300px;\n}\n\ninput[type=text] {\n    width: 100%;\n    padding: 12px 20px;\n    margin: 8px 0;\n    display: inline-block;\n    border: 1px solid #ccc;\n    border-radius: 4px;\n    box-sizing: border-box;\n}\n\n.recipe_lists {\n  width: 500px;\n  border: 1px solid black;\n  border-radius: 10px;\n  background-color: #ffffff;\n  opacity: 0.7;\n  margin: 30px;\n  padding-left:10px;\n}\n\n.recipe-delete {\n  float: right;\n  color: black;\n  background: #8CB667;\n  border: 2px solid #4CAF50; /* Green */\n  padding: 5px 5px;\n  margin: 5px;\n  display: inline-block;\n  font-size: 10px;\n  border-radius: 2px;\n}\n\n.recipe-card {\n  border: 1px solid black;\n  border-radius: 10px;\n  background-color: #ffffff;\n  opacity: 0.7;\n  padding-right: 30px;\n  margin: 30px;\n}\n.user_lists {\n  display: flex;\n}\n.userlist {\n  width: 200px;\n  text-align: center;\n  border: 1px solid black;\n  border-radius: 10px;\n  background-color: #ffffff;\n  opacity: 0.7;\n  margin: 30px;\n}\n", ""]);
+	exports.push([module.id, "body {\n  font-family: 'IBM Plex Serif', serif;\n  height: auto;\n}\n\nhtml {\n  background-image: url('https://images.pexels.com/photos/459469/pexels-photo-459469.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');\n  height: auto;\n  background-repeat: no-repeat;\n  background-size: cover;\n}\n\nbutton {\n    color: black;\n    background-color: #8CB667;\n    border: 2px solid black; /* Green */\n    padding: 10px 10px;\n    margin: 10px;\n    text-align: center;\n    text-decoration: none;\n    display: inline-block;\n    font-size: 14px;\n    border-radius: 4px;\n\n}\n\n.ingredient-button {\n  color: black;\n  background-color: #8CB667;\n  border: 2px solid black; /* Green */\n  padding: 10px 10px;\n  text-align: center;\n  text-decoration: none;\n  display: inline-block;\n  font-size: 14px;\n  border-radius: 4px;\n}\n\nh1 {\n  text-align: center;\n  font-size: 28px;\n  color: black;\n}\n\n.topnav {\n    background-color: #8CB667;\n    overflow: hidden;\n}\n\n#google {\n  float: right;\n  padding-top:  7px;\n  padding-right: 7px;\n   display: none;\n}\n\n.g-signout2 {\n  float: right;\n  display: none;\n}\n\n.topnav a {\n    float: left;\n    color: black;\n    text-align: center;\n    padding: 14px 16px;\n    text-decoration: none;\n    font-size: 20px;\n}\n\n/* Change the color of links on hover */\n.topnav a:hover {\n    color: red;\n}\n\n/* Add a color to the active/current link */\n.topnav a.active {\n    background-color: #8CB667;\n    color: black;\n}\n\n\n.ingredient-form {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.ingredient-form-inputs {\n  width: 300px;\n}\n\ninput[type=text] {\n    width: 100%;\n    padding: 12px 20px;\n    margin: 8px 0;\n    display: inline-block;\n    border: 1px solid #ccc;\n    border-radius: 4px;\n    box-sizing: border-box;\n}\n\n.recipe_lists {\n  width: 500px;\n  border: 1px solid black;\n  border-radius: 10px;\n  background-color: #ffffff;\n  opacity: 0.7;\n  margin: 30px;\n  padding-left:10px;\n}\n\n.recipe-delete {\n  float: right;\n  color: black;\n  background: #8CB667;\n  border: 2px solid #4CAF50; /* Green */\n  padding: 5px 5px;\n  margin: 5px;\n  display: inline-block;\n  font-size: 10px;\n  border-radius: 2px;\n}\n\n.recipe-card {\n  border: 1px solid black;\n  border-radius: 10px;\n  background-color: #ffffff;\n  opacity: 0.7;\n  padding-right: 30px;\n  margin: 30px;\n}\n.user_lists {\n  display: flex;\n}\n.userlist {\n  width: 200px;\n  text-align: center;\n  border: 1px solid black;\n  border-radius: 10px;\n  background-color: #ffffff;\n  opacity: 0.7;\n  margin: 30px;\n}\n", ""]);
 
 	// exports
 

@@ -53,10 +53,12 @@ h1 {
   float: right;
   padding-top:  7px;
   padding-right: 7px;
+   display: none;
 }
 
 .g-signout2 {
   float: right;
+  display: none;
 }
 
 .topnav a {
